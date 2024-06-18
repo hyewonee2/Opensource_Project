@@ -111,33 +111,6 @@ class ImageOCRWindow(QWidget):
         self.ocr_result_window = OCRResultWindow(result)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
 
-class ImageWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("이미지 선택기")
-        self.setGeometry(100, 100, 800, 600)
-
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
-
-        self.button = QPushButton("이미지 열기")
-        self.button.clicked.connect(self.open_file)
-        self.layout.addWidget(self.button)
-
-        self.image_label = QLabel()
-        self.layout.addWidget(self.image_label)
-
-    def open_file(self):
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self, "이미지 파일 열기", "", "이미지 파일 (*.png *.jpg *.jpeg *.bmp *.gif);;모든 파일 (*.*)", options=options)
-        if file_path:
-            self.load_image(file_path)
-
-    def load_image(self, file_path):
-        pixmap = QPixmap(file_path)
-        pixmap = pixmap.scaled(400, 400)
-        self.image_label.setPixmap(pixmap)
 
 class App(tk.Tk):
     def __init__(self):
@@ -169,12 +142,16 @@ class App(tk.Tk):
     def show_checked(self):
         if self.hindu_checked.get():
             self.destroy()
-            self.show_image_window()
-            print("Hindu 체크됨")
+            app = QApplication(sys.argv)
+            window = ImageOCRWindow()
+            window.show()
+            sys.exit(app.exec_())
         if self.muslim_checked.get():
             self.destroy()
-            self.show_image_window()
-            print("Muslim 체크됨")
+            app = QApplication(sys.argv)
+            window = ImageOCRWindow()
+            window.show()
+            sys.exit(app.exec_())
         if self.allergies_checked.get():
             self.destroy()
             self.show_allergies_window()
