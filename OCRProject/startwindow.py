@@ -159,7 +159,7 @@ class App(tk.Tk):
 
     def show_image_window(self):
         app = QApplication(sys.argv)
-        window = ImageWindow()
+        window = ImageOCRWindow()
         window.show()
         sys.exit(app.exec_())
 
