@@ -1,68 +1,45 @@
 import tkinter as tk
+import os
 
-# 창 생성
-root = tk.Tk()
-root.title("알고먹자")
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("알고먹자")
+        self.geometry("400x400+100+100")
 
-# 체크박스 상태를 저장할 변수 생성
-check_vars = [tk.IntVar() for _ in range(6)]
+        # 체크되면 TRUE를 가짐
+        self.hindu_checked = tk.BooleanVar()
+        self.muslim_checked = tk.BooleanVar()
+        self.allergies_checked = tk.BooleanVar()
 
-# 체크박스 이름 리스트
-check_names = ["랩틸리언", "유당불내증", "고혈압", "땅콩알러지", "힌두교", "몰몬교"]
+        # 이미지 로드
+        script_dir = os.path.dirname(__file__)  # 스크립트의 디렉토리 경로
+        image_hindu_path = os.path.join(script_dir, "images", "hindu.png")
+        image_muslim_path = os.path.join(script_dir, "images", "muslim.png")
 
-# 체크박스 생성
-check_buttons = [
-    tk.Checkbutton(root, text=check_names[i], variable=check_vars[i])
-    for i in range(6)
-]
+        self.image_hindu = tk.PhotoImage(file=image_hindu_path)
+        self.image_hindu = self.image_hindu.subsample(4)
 
-# 체크박스 배치
-for i in range(3):
-    for j in range(2):
-        check_buttons[i * 2 + j].grid(row=i, column=j, sticky='w')
+        self.image_muslim = tk.PhotoImage(file=image_muslim_path)
 
-# 각 체크박스에 대한 함수를 정의
-def function_A():
-    print("옵션 A가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
+        # 체크박스 생성 및 이미지 삽입
+        tk.Checkbutton(self, text="Hindu", image=self.image_hindu, variable=self.hindu_checked, compound=tk.RIGHT).pack(anchor=tk.W)
+        tk.Checkbutton(self, text="Muslim", image=self.image_muslim, variable=self.muslim_checked, compound=tk.RIGHT).pack(anchor=tk.W)
+        tk.Checkbutton(self, text="Allergies", variable=self.allergies_checked).pack(anchor=tk.W)
 
-def function_B():
-    print("옵션 B가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
+        # 확인 버튼 생성
+        button = tk.Button(self, text="확인", command=self.show_checked)
+        button.pack(pady=10)
 
-def function_C():
-    print("옵션 C가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
+    # 확인 버튼 클릭 시 체크박스 상태를 확인하고 함수를 호출하는 함수
+    def show_checked(self):
+        if self.hindu_checked.get():
+            print("Hindu 체크됨")
+        if self.muslim_checked.get():
+            print("Muslim 체크됨")
+        if self.allergies_checked.get():
+            print("Allergies 체크됨")
 
-def function_D():
-    print("옵션 D가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
-
-def function_E():
-    print("옵션 E가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
-
-def function_F():
-    print("옵션 F가 선택되었습니다.")
-    # 추가 동작을 여기에 정의
-
-# 함수 리스트
-functions = [function_A, function_B, function_C, function_D, function_E, function_F]
-
-# 확인 버튼 클릭 시 체크박스 상태를 확인하고 함수를 호출하는 함수
-def show_checked():
-    checked_any = False
-    for i, var in enumerate(check_vars):
-        if var.get():  # 체크된 경우
-            functions[i]()
-            checked_any = True
-
-    if not checked_any:
-        print("bye")
-
-# 확인 버튼 생성
-button = tk.Button(root, text="확인", command=show_checked)
-button.grid(row=3, column=0, columnspan=2)
-
-# GUI 루프 시작
-root.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
