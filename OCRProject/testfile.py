@@ -5,6 +5,8 @@ import pytesseract as pt
 from PIL import Image
 from PyQt5.QtCore import Qt
 
+#충돌 확인 commit
+
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
