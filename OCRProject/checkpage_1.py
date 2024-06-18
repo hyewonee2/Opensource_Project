@@ -18,8 +18,6 @@ class App(tk.Tk):
         image_muslim_path = os.path.join(script_dir, "ImageFile", "muslim.png")
 
         self.image_hindu = tk.PhotoImage(file=image_hindu_path)
-        self.image_hindu = self.image_hindu.subsample(4)
-
         self.image_muslim = tk.PhotoImage(file=image_muslim_path)
 
         # 체크박스 생성 및 이미지 삽입
