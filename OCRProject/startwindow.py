@@ -189,7 +189,7 @@ class App(tk.Tk):
 
         # 체크박스 생성
         check_buttons = [
-            tk.Checkbutton(root, text=check_names[i], variable=check_vars[i], image=images[i], compound='left', padx=2)
+            tk.Checkbutton(self.allergies_root, text=check_names[i], variable=check_vars[i], image=images[i], compound='left', padx=2)
             for i in range(20)
         ]
 
