@@ -1,85 +1,112 @@
 import sys
-import cv2
-import numpy as np
-import pytesseract as pt
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QIcon
+import pytesseract as pt
 from PIL import Image
+from PyQt5.QtCore import Qt
 
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
+example = ["설탕", "닭", "포도당", "비타민"]
+
+class OCRResultWindow(QWidget):
+    def __init__(self, ocr_result):
+        super().__init__()
+        self.setWindowTitle("OCR 결과")
+        self.setGeometry(200, 200, 400, 300)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        # OCR 결과를 출력할 QLabel 추가
+        for i in example:
+            label = QLabel()
+            if i in ocr_result:
+                label.setText(i)
+            else:
+                label.setText("OCR 결과에 '%s'이 포함되어 있지 않습니다." % i)
+            layout.addWidget(label)
 
 class ImageOCRWindow(QWidget):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("이미지 OCR")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 800, 800)  # 창의 위치와 크기 설정
 
-        self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
+        layout = QVBoxLayout(self)
 
-        self.button = QPushButton("이미지 열기")
+        # 첫 번째 레이블
+        label1 = QLabel("사진을 첨부해주세요.")
+        label1.setStyleSheet("font-size: 40px; font-weight: bold; color: #333;")
+        layout.addWidget(label1, alignment=Qt.AlignCenter)
+
+        # 두 번째 레이블
+        label2 = QLabel("Please attach a picture")
+        label2.setStyleSheet("font-size: 40px; font-weight: bold; color: #333;")
+        layout.addWidget(label2, alignment=Qt.AlignCenter)
+
+        # 이미지 버튼
+        self.button = QPushButton(self)
+        self.button.setGeometry(300, 300, 200, 200)
         self.button.clicked.connect(self.open_file)
-        self.layout.addWidget(self.button)
+        icon = QIcon("C:\\Users\\venus\\Downloads\\gal.png")  # 여기에 이미지 파일 경로를 입력
+        self.button.setIcon(icon)
+        self.button.setIconSize(self.button.size() * 0.8)
+        self.button.setStyleSheet("""
+            QPushButton {
+                background-color: #f0f0f0;
+                border: 2px solid #cccccc;
+                border-radius: 10px;
+            }
+            QPushButton:hover {
+                background-color: #e0e0e0;
+            }
+            QPushButton:pressed {
+                background-color: #d0d0d0;
+            }
+        """)
+        layout.addWidget(self.button)
 
+        # 이미지를 표시할 레이블
         self.image_label = QLabel()
-        self.layout.addWidget(self.image_label)
+        layout.addWidget(self.image_label)
+
+        self.ocr_result_window = None  # OCR 결과 창에 대한 참조를 유지하기 위한 변수
 
     def open_file(self):
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getOpenFileName(self, "이미지 파일 열기", "", "이미지 파일 (*.png *.jpg *.jpeg *.bmp *.gif);;모든 파일 (*.*)", options=options)
         if file_path:
             # 이미지 OCR 수행
-            self.perform_ocr(file_path)
-
-    def load_image(self, file_path):
-        pixmap = QPixmap(file_path)
-        pixmap = pixmap.scaled(400, 400)
-        self.image_label.setPixmap(pixmap)
+            ocr_result = self.perform_ocr(file_path)
+            if ocr_result:
+                self.show_ocr_result_window(ocr_result)
 
     def perform_ocr(self, file_path):
         try:
             image = Image.open(file_path)
             print("이미지를 성공적으로 열었습니다.")
 
-            # 이미지 전처리
-            processed_image = self.preprocess_image(image)
-
             # 전처리된 이미지로 OCR 수행
-            text = pt.image_to_string(processed_image, lang='kor', config=custom_config)
+            text = pt.image_to_string(image, lang='kor', config=custom_config)
             if text.strip():  # 텍스트가 비어 있지 않은지 확인
-                print("OCR 결과:")
-                print(text)
+                return text
             else:
                 print("OCR 결과가 비어 있습니다.")
+                return None
 
         except FileNotFoundError:
             print("이미지 파일을 찾을 수 없습니다. 경로를 확인하세요.")
+            return None
         except Exception as e:
             print("OCR 수행 중 오류 발생:", e)
+            return None
 
-    def preprocess_image(self, image):
-        # 이미지를 numpy 배열로 변환
-        img = np.array(image)
-
-        # 그레이스케일 변환
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        # 가우시안 블러 적용
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-
-        # 이미지 이진화 (Otsu's Binarization 사용)
-        _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-        # 대비 조정 (CLAHE: Contrast Limited Adaptive Histogram Equalization)
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        contrast = clahe.apply(binary)
-
-        # PIL 이미지로 다시 변환
-        processed_image = Image.fromarray(contrast)
-        return processed_image
+    def show_ocr_result_window(self, result):
+        self.ocr_result_window = OCRResultWindow(result)  # 인스턴스를 클래스 속성으로 저장
+        self.ocr_result_window.show()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
