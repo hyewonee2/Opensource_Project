@@ -20,7 +20,7 @@ images = []
 # 이미지를 로드하고 크기를 조정
 for image_file in image_files:
     img = Image.open(image_file)
-    img = img.resize((64, 64), Image.ANTIALIAS)
+    img = img.resize((64, 64), Image.LANCZOS)
     img = ImageTk.PhotoImage(img)
     images.append(img)
 
