@@ -13,9 +13,8 @@ class App(tk.Tk):
         self.allergies_checked = tk.BooleanVar()
 
         # 이미지 로드
-        script_dir = os.path.dirname(__file__)  # 스크립트의 디렉토리 경로
-        image_hindu_path = os.path.join(script_dir, "ImageFile", "hindu.png")
-        image_muslim_path = os.path.join(script_dir, "ImageFile", "muslim.png")
+        image_hindu_path = "ImageFile/hindu.png"
+        image_muslim_path = "ImageFile/muslim.png"
 
         self.image_hindu = tk.PhotoImage(file=image_hindu_path)
         self.image_muslim = tk.PhotoImage(file=image_muslim_path)
