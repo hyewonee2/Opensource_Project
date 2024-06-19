@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from app import App
-from allergy_check import Allergy_Check
+from allergychecker import AllergyChecker
 
 def main():
     app = App()
@@ -17,7 +17,7 @@ def main():
         
     elif selected_list == ['allergies']:
         root = tk.Tk()
-        app = Allergy_Check(root)
+        app = AllergyChecker(root)
         root.mainloop()
 
 if __name__ == "__main__":
