@@ -1,6 +1,9 @@
 import tkinter as tk
 import os
 
+# 글로벌 변수로 checked_list 선언
+checked_list = []
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -30,19 +33,38 @@ class App(tk.Tk):
 
     # 확인 버튼 클릭 시 체크박스 상태를 확인하고 함수를 호출하는 함수
     def show_checked(self):
+        global checked_list
+        # checked_list 초기화
+        checked_list.clear()
+
         if self.hindu_checked.get():
-            #연결지점
-            #이미지 삽입 페이지로 이동
-            print("Hindu 체크됨")
+            checked_list.append('hindu')
+
         if self.muslim_checked.get():
-            #연결지점
-            #이미지 삽입 페이지로 이동
-            print("Muslim 체크됨")
+            checked_list.append('muslim')
+
         if self.allergies_checked.get():
-            #연결지점
-            #알러지 세부 체크 페이지로 이동
-            print("Allergies 체크됨")
+            checked_list.append('allergies')
+
+# 알러지 리스트 반환
+def get_checked_list():
+    return checked_list
+
+#def allergy_check(): #복붙지점
+#유진님이 만든 페이지자체를 allergy_check()라는 함수로 묶을 생각이었음
+
+#def pyqt(): #복붙지점
+# pyqt 페이지자체를 pyqt()라는 함수로 묶을 생각이었음
 
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+    
+    selected_list = get_checked_list()
+
+    if selected_list == ['allergies']:
+        allergy_check() # 연결지점
+    elif selected_list == ['muslim'] or selected_list == ['hindu']:
+        pyqt() # 연결지점
+    else:
+        print("선택된 항목이 없습니다.")
