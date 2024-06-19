@@ -116,9 +116,3 @@ class ImageOCRWindow(QWidget):
         self.ocr_result_window = OCRResultWindow(result, self.checked_list)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
         
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = ImageOCRWindow()
-    window.show()
-    sys.exit(app.exec_())
