@@ -96,6 +96,8 @@ class ImageOCRWindow(QWidget):
             image = Image.open(file_path)
             print("이미지를 성공적으로 열었습니다.")
 
+            # 이미지 전처리
+            processed_image = self.preprocess_image(image)
 
             # 전처리된 이미지로 OCR 수행
             text = pt.image_to_string(image, lang='kor', config=custom_config)
@@ -112,6 +114,21 @@ class ImageOCRWindow(QWidget):
         except Exception as e:
             print("OCR 수행 중 오류 발생:", e)
             return None
+
+    def preprocess_image(self, image):
+        # 이미지를 numpy 배열로 변환
+        img = np.array(image)
+
+        # 그레이스케일 변환
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        # 이미지 이진화 (Otsu's Binarization 사용)
+        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        # PIL 이미지로 다시 변환
+        processed_image = Image.fromarray(binary)
+        return processed_image
+        
     def show_ocr_result_window(self, result):
         self.ocr_result_window = OCRResultWindow(result, self.checked_list)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
