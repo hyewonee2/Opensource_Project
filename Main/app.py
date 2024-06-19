@@ -49,7 +49,7 @@ class App(tk.Tk):
         checked_list.clear()
 
         if self.hindu_checked.get():
-            checked_list.append('cow')
+            checked_list.append('소')
             self.destroy()
             app2 = QApplication(sys.argv)
             window = ImageOCRWindow(checked_list)
@@ -57,10 +57,10 @@ class App(tk.Tk):
             sys.exit(app2.exec_())
 
         if self.muslim_checked.get():
-            checked_list.append('pig')
+            checked_list.append('돼지')
             self.destroy()
             app2 = QApplication(sys.argv)
-            window = ImageOCRWindow()
+            window = ImageOCRWindow(checked_list)
             window.show()
             sys.exit(app2.exec_())
 
