@@ -120,18 +120,11 @@ class ImageOCRWindow(QWidget):
         # 그레이스케일 변환
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        # 가우시안 블러 적용
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-
         # 이미지 이진화 (Otsu's Binarization 사용)
-        _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-        # 대비 조정 (CLAHE: Contrast Limited Adaptive Histogram Equalization)
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        contrast = clahe.apply(binary)
+        _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
         # PIL 이미지로 다시 변환
-        processed_image = Image.fromarray(contrast)
+        processed_image = Image.fromarray(binary)
         return processed_image
         
     def show_ocr_result_window(self, result):
