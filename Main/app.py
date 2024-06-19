@@ -49,7 +49,7 @@ class App(tk.Tk):
         checked_list.clear()
 
         if self.hindu_checked.get():
-            checked_list.append('소')
+            checked_list.append('소고기')
             self.destroy()
             app2 = QApplication(sys.argv)
             window = ImageOCRWindow(checked_list)

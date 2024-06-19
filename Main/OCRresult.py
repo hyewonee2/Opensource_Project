@@ -5,7 +5,8 @@ import cv2
 import pytesseract as pt
 from PIL import Image
 from PyQt5.QtCore import Qt
-import array as np
+import numpy as np
+from PyQt5.QtGui import QPixmap
 
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
