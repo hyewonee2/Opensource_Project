@@ -1,5 +1,5 @@
 import tkinter as tk
-import os
+from tkinter import messagebox
 
 # 글로벌 변수로 checked_list 선언
 checked_list = []
@@ -38,33 +38,14 @@ class App(tk.Tk):
         checked_list.clear()
 
         if self.hindu_checked.get():
-            checked_list.append('hindu')
+            checked_list.append('cow')
 
         if self.muslim_checked.get():
-            checked_list.append('muslim')
+            checked_list.append('pig')
 
         if self.allergies_checked.get():
             checked_list.append('allergies')
 
-# 알러지 리스트 반환
-def get_checked_list():
-    return checked_list
-
-#def allergy_check(): #복붙지점
-#유진님이 만든 페이지자체를 allergy_check()라는 함수로 묶을 생각이었음
-
-#def pyqt(): #복붙지점
-# pyqt 페이지자체를 pyqt()라는 함수로 묶을 생각이었음
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
-    
-    selected_list = get_checked_list()
-
-    if selected_list == ['allergies']:
-        allergy_check() # 연결지점
-    elif selected_list == ['muslim'] or selected_list == ['hindu']:
-        pyqt() # 연결지점
-    else:
-        print("선택된 항목이 없습니다.")
+    # 알러지 리스트 반환
+    def get_checked_list(self):
+        return checked_list
