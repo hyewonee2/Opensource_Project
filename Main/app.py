@@ -1,5 +1,16 @@
 import tkinter as tk
+import os
+import sys
+import cv2
+import pytesseract as pt
+import tkinter as tk
 from tkinter import messagebox
+from allergychecker import AllergyChecker
+from OCRresult import ImageOCRWindow, OCRResultWindow
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
+import sys
 
 # 글로벌 변수로 checked_list 선언
 checked_list = []
@@ -8,7 +19,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("알고먹자")
-        self.geometry("400x400+100+100")
+        self.geometry("700x700+100+100")
 
         # 체크되면 TRUE를 가짐
         self.hindu_checked = tk.BooleanVar()
@@ -39,13 +50,26 @@ class App(tk.Tk):
 
         if self.hindu_checked.get():
             checked_list.append('cow')
+            self.destroy()
+            app2 = QApplication(sys.argv)
+            window = ImageOCRWindow(checked_list)
+            window.show()
+            sys.exit(app2.exec_())
 
         if self.muslim_checked.get():
             checked_list.append('pig')
+            self.destroy()
+            app2 = QApplication(sys.argv)
+            window = ImageOCRWindow()
+            window.show()
+            sys.exit(app2.exec_())
 
         if self.allergies_checked.get():
             checked_list.append('allergies')
-
+            self.destroy()
+            root = tk.Tk()
+            app3 = AllergyChecker(root)
+            root.mainloop()
     # 알러지 리스트 반환
     def get_checked_list(self):
         return checked_list

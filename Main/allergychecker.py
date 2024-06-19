@@ -58,3 +58,4 @@ class AllergyChecker:
     # 알러지 리스트 반환
     def get_checked_allergy(self):
         return self.checked_allergy
+
