@@ -37,6 +37,7 @@ def plt_imshow(title='image', img=None, figsize=(8, 5)):
         plt.xticks([]), plt.yticks([])
         plt.show()
 
+
 def preprocess_image(image):
     # 그레이스케일 변환
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
