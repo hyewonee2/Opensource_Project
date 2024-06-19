@@ -34,6 +34,7 @@ class App(tk.Tk):
             #연결지점
             #이미지 삽입 페이지로 이동
             print("Hindu 체크됨")
+            
         if self.muslim_checked.get():
             #연결지점
             #이미지 삽입 페이지로 이동
