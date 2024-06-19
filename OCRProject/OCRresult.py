@@ -1,27 +1,28 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
 from PyQt5.QtGui import QIcon
+import cv2
 import pytesseract as pt
 from PIL import Image
 from PyQt5.QtCore import Qt
-
+import array as np
 #충돌 확인 commit
 
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
-example = ["설탕", "닭", "포도당", "비타민"]
+example = ["토마토"]
 
 class OCRResultWindow(QWidget):
     def __init__(self, ocr_result):
         super().__init__()
         self.setWindowTitle("OCR 결과")
-        self.setGeometry(200, 200, 400, 300)
+        self.setGeometry(100, 100, 800, 800)
 
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        # OCR 결과를 출력할 QLabel 추가
+
         for i in example:
             label = QLabel()
             if i in ocr_result:
@@ -30,12 +31,15 @@ class OCRResultWindow(QWidget):
                 label.setText("OCR 결과에 '%s'이 포함되어 있지 않습니다." % i)
             layout.addWidget(label)
 
+
+
 class ImageOCRWindow(QWidget):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("이미지 OCR")
         self.setGeometry(100, 100, 800, 800)  # 창의 위치와 크기 설정
+        self.setWindowIcon(QIcon("ImageFile/gal.png"))
 
         layout = QVBoxLayout(self)
 
@@ -91,9 +95,11 @@ class ImageOCRWindow(QWidget):
             image = Image.open(file_path)
             print("이미지를 성공적으로 열었습니다.")
 
+
             # 전처리된 이미지로 OCR 수행
             text = pt.image_to_string(image, lang='kor', config=custom_config)
             if text.strip():  # 텍스트가 비어 있지 않은지 확인
+                print(text)
                 return text
             else:
                 print("OCR 결과가 비어 있습니다.")
@@ -105,10 +111,10 @@ class ImageOCRWindow(QWidget):
         except Exception as e:
             print("OCR 수행 중 오류 발생:", e)
             return None
-
     def show_ocr_result_window(self, result):
         self.ocr_result_window = OCRResultWindow(result)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
