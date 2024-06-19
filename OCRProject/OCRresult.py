@@ -21,7 +21,7 @@ class OCRResultWindow(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-
+        #리스트 안에 원재료 들었는지 확인하는 부분
         for i in example:
             label = QLabel()
             if i in ocr_result:
