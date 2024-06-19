@@ -100,7 +100,7 @@ class ImageOCRWindow(QWidget):
             processed_image = self.preprocess_image(image)
 
             # 전처리된 이미지로 OCR 수행
-            text = pt.image_to_string(image, lang='kor', config=custom_config)
+            text = pt.image_to_string(processed_image, lang='kor', config=custom_config)
             if text.strip():  # 텍스트가 비어 있지 않은지 확인
                 print(text)
                 return text
