@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 import pytesseract as pt
 
 
+
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
@@ -198,105 +199,28 @@ class App(tk.Tk):
             for j in range(5):
                 check_buttons[i * 5 + j].grid(row=i, column=j, sticky='w')
 
-        # 각 체크박스에 대한 함수를 정의
-        def function_A():
-            print("옵션 A가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
+        # checked_allergy 리스트
+        checked_allergy = []
 
-        def function_B():
-            print("옵션 B가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_C():
-            print("옵션 C가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_D():
-            print("옵션 D가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_E():
-            print("옵션 E가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_F():
-            print("옵션 F가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_G():
-            print("옵션 G가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_H():
-            print("옵션 H가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_I():
-            print("옵션 I가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_J():
-            print("옵션 J가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_K():
-            print("옵션 K가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_L():
-            print("옵션 L가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_M():
-            print("옵션 M가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_N():
-            print("옵션 N가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_O():
-            print("옵션 O가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_P():
-            print("옵션 P가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_Q():
-            print("옵션 Q가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_R():
-            print("옵션 R가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_S():
-            print("옵션 S가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        def function_T():
-            print("옵션 T가 선택되었습니다.")
-            # 추가 동작을 여기에 정의
-
-        functions = [function_A, function_B, function_C, function_D, function_E, function_F, function_G, function_H, function_I, function_J, function_K, function_L, function_M, function_N, function_O, function_P, function_Q, function_R, function_S, function_T]
-
-        # 확인 버튼 클릭 시 체크박스 상태를 확인하고 함수를 호출하는 함수
-        def show_checked():
-            checked_any = False
-            for i, var in enumerate(check_vars):
-                if var.get():  # 체크된 경우
-                    functions[i]()
-                    checked_any = True
-
-                    if not checked_any:
-                        print("bye")
-
-        # 확인 버튼 생성    
-        button = tk.Button(self.allergies_root, text="확인", command=self.show_image_window_from_allergies)
+        button = tk.Button(self.allergies_root, text="확인", command=show_checked)
         button.grid(row=4, column=0, columnspan=5)
 
-        self.allergies_root.mainloop()
+    def get_checked_allergy():
+            return checked_allergy
+
+# 체크박스 상태를 업데이트하는 함수
+    def update_checked_allergy():
+            global checked_allergy
+            checked_allergy = [check_names[i].split("(")[0] for i, var in enumerate(check_vars) if var.get()]
+
+# 확인 버튼 클릭 시 체크박스 상태를 확인하는 함수
+    def show_checked():
+        update_checked_allergy()
+        if not checked_allergy:
+                print("bye")
+        else:
+            print("Checked allergies: ", checked_allergy)
+       
 
     def show_image_window_from_allergies(self):
         self.allergies_root.destroy()
@@ -306,4 +230,3 @@ class App(tk.Tk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-    

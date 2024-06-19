@@ -59,7 +59,4 @@ class AllergyChecker:
     def get_checked_allergy(self):
         return self.checked_allergy
 
-# 창 생성 및 클래스 인스턴스 생성
-root = tk.Tk()
-app = AllergyChecker(root)
-root.mainloop()
+

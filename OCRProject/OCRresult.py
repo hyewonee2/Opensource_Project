@@ -33,8 +33,10 @@ class OCRResultWindow(QWidget):
 
 
 class ImageOCRWindow(QWidget):
-    def __init__(self):
+    def __init__(self, checked_list):
         super().__init__()
+
+        self.checked_list = checked_list
 
         self.setWindowTitle("이미지 OCR")
         self.setGeometry(100, 100, 800, 800)  # 창의 위치와 크기 설정
@@ -99,6 +101,7 @@ class ImageOCRWindow(QWidget):
             text = pt.image_to_string(image, lang='kor', config=custom_config)
             if text.strip():  # 텍스트가 비어 있지 않은지 확인
                 print(text)
+                print(self.checked_list)
                 return text
             else:
                 print("OCR 결과가 비어 있습니다.")
