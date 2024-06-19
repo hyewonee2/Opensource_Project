@@ -10,10 +10,9 @@ import array as np
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
-example = ["토마토"]
 
 class OCRResultWindow(QWidget):
-    def __init__(self, ocr_result):
+    def __init__(self, ocr_result, checked_list):
         super().__init__()
         self.setWindowTitle("OCR 결과")
         self.setGeometry(100, 100, 800, 800)
@@ -22,13 +21,14 @@ class OCRResultWindow(QWidget):
         self.setLayout(layout)
 
         #리스트 안에 원재료 들었는지 확인하는 부분
-        for i in example:
+        for i in checked_list:
             label = QLabel()
             if i in ocr_result:
                 label.setText(i)
             else:
                 label.setText("OCR 결과에 '%s'이 포함되어 있지 않습니다." % i)
             layout.addWidget(label)
+        print(checked_list)
 
 
 
@@ -101,7 +101,6 @@ class ImageOCRWindow(QWidget):
             text = pt.image_to_string(image, lang='kor', config=custom_config)
             if text.strip():  # 텍스트가 비어 있지 않은지 확인
                 print(text)
-                print(self.checked_list)
                 return text
             else:
                 print("OCR 결과가 비어 있습니다.")
@@ -114,7 +113,7 @@ class ImageOCRWindow(QWidget):
             print("OCR 수행 중 오류 발생:", e)
             return None
     def show_ocr_result_window(self, result):
-        self.ocr_result_window = OCRResultWindow(result)  # 인스턴스를 클래스 속성으로 저장
+        self.ocr_result_window = OCRResultWindow(result, self.checked_list)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
         
 

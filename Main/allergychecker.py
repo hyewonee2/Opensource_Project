@@ -1,5 +1,10 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+from OCRresult import ImageOCRWindow, OCRResultWindow
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
+import sys
 
 class AllergyChecker:
     def __init__(self, root):
@@ -53,7 +58,18 @@ class AllergyChecker:
         if not self.checked_allergy:
             print("bye")
         else:
-            print("Checked allergies: ", self.checked_allergy)
+            # TKinter 창 닫기
+            self.root.destroy()
+
+            # PyQt 애플리케이션 초기화
+            app2 = QApplication(sys.argv)
+            
+            # ImageOCRWindow를 생성하고 모달로 띄우기
+            window = ImageOCRWindow(self.checked_allergy)
+            window.show()
+            
+            sys.exit(app2.exec_())
+            
 
     # 알러지 리스트 반환
     def get_checked_allergy(self):
