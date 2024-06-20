@@ -32,11 +32,12 @@ class App(tk.Tk):
 
         self.image_hindu = tk.PhotoImage(file=image_hindu_path)
         self.image_muslim = tk.PhotoImage(file=image_muslim_path)
+        self.image_allergies = tk.PhotoImage(file=image_allergies_path)
 
         # 체크박스 생성 및 이미지 삽입
-        tk.Checkbutton(self, text="Hindu", image=self.image_hindu, variable=self.hindu_checked, compound=tk.RIGHT).pack(anchor=tk.W)
-        tk.Checkbutton(self, text="Muslim", image=self.image_muslim, variable=self.muslim_checked, compound=tk.RIGHT).pack(anchor=tk.W)
-        tk.Checkbutton(self, text="Allergies", variable=self.allergies_checked).pack(anchor=tk.W)
+        tk.Checkbutton(self, text="힌두교(Hindu)", image=self.image_hindu, variable=self.hindu_checked, compound=tk.RIGHT).pack(anchor=tk.W)
+        tk.Checkbutton(self, text="이슬람교(Muslim)", image=self.image_muslim, variable=self.muslim_checked, compound=tk.RIGHT).pack(anchor=tk.W)
+        tk.Checkbutton(self, text="알러지(Allergies)", image=self.image_allergies, variable=self.allergies_checked, compound=tk.RIGHT).pack(anchor=tk.W)
 
         # 확인 버튼 생성
         button = tk.Button(self, text="확인", command=self.show_checked)
