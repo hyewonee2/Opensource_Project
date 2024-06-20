@@ -40,18 +40,18 @@ class App(tk.Tk):
         self.image_allergies = tk.PhotoImage(file=image_allergies_path)
 
         # 체크박스 생성 및 이미지 삽입
-        tk.Checkbutton(self, text="힌두교(Hindu)", variable=self.hindu_checked, compound=tk.BOTTOM).grid(row=0, column=0, padx=20, pady=10)
+        tk.Checkbutton(self, text="힌두교(Hindu)", variable=self.hindu_checked, compound=tk.BOTTOM, font=("Helvetica", 14)).grid(row=0, column=0, padx=20, pady=10)
         tk.Label(self, image=self.image_hindu).grid(row=1, column=0, padx=20, pady=10)
         
-        tk.Checkbutton(self, text="이슬람교(Muslim)", variable=self.muslim_checked, compound=tk.BOTTOM).grid(row=0, column=1, padx=20, pady=10)
+        tk.Checkbutton(self, text="이슬람교(Muslim)", variable=self.muslim_checked, compound=tk.BOTTOM, font=("Helvetica", 14)).grid(row=0, column=1, padx=20, pady=10)
         tk.Label(self, image=self.image_muslim).grid(row=1, column=1, padx=20, pady=10)
         
-        tk.Checkbutton(self, text="알러지(Allergies)", variable=self.allergies_checked, compound=tk.BOTTOM).grid(row=0, column=2, padx=20, pady=10)
+        tk.Checkbutton(self, text="알러지(Allergies)", variable=self.allergies_checked, compound=tk.BOTTOM, font=("Helvetica", 14)).grid(row=0, column=2, padx=20, pady=10)
         tk.Label(self, image=self.image_allergies).grid(row=1, column=2, padx=20, pady=10)
 
         # 확인 버튼 생성
-        button = tk.Button(self, text="확인", command=self.show_checked)
-        button.grid(row=2, columnspan=3, pady=20)
+        button = tk.Button(self, text="확인", command=self.show_checked, font=("Helvetica", 14, "bold"))
+        button.grid(row=4, columnspan=6, pady=20)
 
     # 확인 버튼 클릭 시 체크박스 상태를 확인하고 함수를 호출하는 함수
     def show_checked(self):
