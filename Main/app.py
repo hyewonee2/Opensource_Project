@@ -18,7 +18,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("알고먹자")
-        self.geometry("700x700+100+100")
+        self.geometry("700x500+100+100")
 
         # 체크되면 TRUE를 가짐
         self.hindu_checked = tk.BooleanVar()

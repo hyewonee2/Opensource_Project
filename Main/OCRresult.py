@@ -1,5 +1,4 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
 from PyQt5.QtGui import QIcon, QPixmap
 import cv2
 import pytesseract as pt
@@ -45,6 +44,7 @@ class OCRResultWindow(QWidget):
 
         layout = QVBoxLayout()
         self.setLayout(layout)
+        items_added = False
 
         # OCR 처리한 이미지 표시
         image_label = QLabel()
@@ -65,8 +65,6 @@ class OCRResultWindow(QWidget):
                     pixmap = QPixmap(image_file_path).scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                     if not pixmap.isNull():
                         item_label.setPixmap(pixmap)
-                    else:
-                        item_label.setText("이미지 없음")
 
                     # 텍스트 레이블 추가
                     text_label = QLabel()
@@ -74,10 +72,16 @@ class OCRResultWindow(QWidget):
                     
                     layout.addWidget(item_label)
                     layout.addWidget(text_label)
+                    items_added = True
 
+        if not items_added:
+            ok_label = QLabel()
+            pixmap = QPixmap("ImageFile/ok.png").scaled(300, 300, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            ok_label.setPixmap(pixmap)
+            ok_label.setAlignment(Qt.AlignCenter)
+            layout.addWidget(ok_label)
+        
         print(checked_list)
-
-
 class ImageOCRWindow(QWidget):
     def __init__(self, checked_list, checked_png):
         super().__init__()
@@ -145,6 +149,7 @@ class ImageOCRWindow(QWidget):
 
             # 이미지 전처리
             processed_image = self.preprocess_image(image)
+            processed_image2 = self.preprocess_image2(image)
 
             # 전처리된 이미지로 OCR 수행
             text = pt.image_to_string(processed_image, lang='kor', config=custom_config)
@@ -157,8 +162,9 @@ class ImageOCRWindow(QWidget):
                     print(text)
                     return text
                 else:
-                    print("OCR 결과가 비어 있습니다.")
-                    return None
+                    text = pt.image_to_string(processed_image2, lang='kor', config=custom_config)
+                    print(text)
+                    return text
 
         except FileNotFoundError:
             print("이미지 파일을 찾을 수 없습니다. 경로를 확인하세요.")
@@ -179,6 +185,27 @@ class ImageOCRWindow(QWidget):
 
         # PIL 이미지로 다시 변환
         processed_image = Image.fromarray(binary)
+        return processed_image
+    
+    def preprocess_image2(self, image):
+        # 이미지를 numpy 배열로 변환
+        img = np.array(image)
+
+        # 그레이스케일 변환
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        # 가우시안 블러 적용
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+
+        # 이미지 이진화 (Otsu's Binarization 사용)
+        _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        # 대비 조정 (CLAHE: Contrast Limited Adaptive Histogram Equalization)
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        contrast = clahe.apply(binary)
+
+        # PIL 이미지로 다시 변환
+        processed_image = Image.fromarray(contrast)
         return processed_image
         
     def show_ocr_result_window(self, result, file_path):
