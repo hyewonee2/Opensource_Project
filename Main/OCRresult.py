@@ -13,7 +13,7 @@ pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
 
 class OCRResultWindow(QWidget):
-    def __init__(self, ocr_result, checked_list):
+    def __init__(self, ocr_result, checked_list, image_path):
         super().__init__()
         self.setWindowTitle("OCR 결과")
         self.setGeometry(100, 100, 800, 800)
@@ -21,11 +21,17 @@ class OCRResultWindow(QWidget):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        #리스트 안에 원재료 들었는지 확인하는 부분
+        # OCR 처리한 이미지 표시
+        image_label = QLabel()
+        pixmap = QPixmap(image_path)
+        image_label.setPixmap(pixmap)
+        layout.addWidget(image_label)
+
+        # OCR 결과 텍스트 레이블
         for i in checked_list:
             label = QLabel()
             if i in ocr_result:
-                label.setText(i)
+                label.setText("OCR 결과에 '%s'이 포함되어 있습니다." % i)
             else:
                 label.setText("OCR 결과에 '%s'이 포함되어 있지 않습니다." % i)
             layout.addWidget(label)
@@ -59,7 +65,7 @@ class ImageOCRWindow(QWidget):
         self.button = QPushButton(self)
         self.button.setGeometry(300, 300, 200, 200)
         self.button.clicked.connect(self.open_file)
-        icon = QIcon("ImageFile/gal.png")  # 여기에 이미지 파일 경로를 입력
+        icon = QIcon("../ImageFile/gal.png")  # 여기에 이미지 파일 경로를 입력
         self.button.setIcon(icon)
         self.button.setIconSize(self.button.size() * 0.8)
         self.button.setStyleSheet("""
@@ -90,7 +96,7 @@ class ImageOCRWindow(QWidget):
             # 이미지 OCR 수행
             ocr_result = self.perform_ocr(file_path)
             if ocr_result:
-                self.show_ocr_result_window(ocr_result)
+                self.show_ocr_result_window(ocr_result, file_path)
 
     def perform_ocr(self, file_path):
         try:
@@ -130,7 +136,17 @@ class ImageOCRWindow(QWidget):
         processed_image = Image.fromarray(binary)
         return processed_image
         
-    def show_ocr_result_window(self, result):
-        self.ocr_result_window = OCRResultWindow(result, self.checked_list)  # 인스턴스를 클래스 속성으로 저장
+    def show_ocr_result_window(self, result, file_path):
+        self.ocr_result_window = OCRResultWindow(result, self.checked_list, file_path)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
-        
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    
+    # 체크 리스트 예시
+    checked_list = ["원재료1", "원재료2", "원재료3"]
+    
+    main_window = ImageOCRWindow(checked_list)
+    main_window.show()
+    
+    sys.exit(app.exec_())

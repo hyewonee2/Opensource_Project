@@ -29,6 +29,7 @@ class App(tk.Tk):
         # 이미지 로드
         image_hindu_path = "ImageFile/hindu.png"
         image_muslim_path = "ImageFile/muslim.png"
+        image_allergies_path = "ImageFile/allergies.png"
 
         self.image_hindu = tk.PhotoImage(file=image_hindu_path)
         self.image_muslim = tk.PhotoImage(file=image_muslim_path)
