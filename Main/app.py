@@ -14,6 +14,7 @@ from PyQt5.QtCore import Qt
 checked_list = []
 
 class App(tk.Tk):
+
     def __init__(self):
         super().__init__()
         self.title("알고먹자")
@@ -57,12 +58,15 @@ class App(tk.Tk):
         global checked_list
         # checked_list 초기화
         checked_list.clear()
+        checked_cow = ['cow']
+        checked_pig = ['pig']
 
         if self.hindu_checked.get():
             checked_list.append('소고기')
+            checked_list.append('쇠고기')
             self.destroy()
             app2 = QApplication(sys.argv)
-            window = ImageOCRWindow(checked_list)
+            window = ImageOCRWindow(checked_list, checked_cow)
             window.show()
             sys.exit(app2.exec_())
 
@@ -70,7 +74,7 @@ class App(tk.Tk):
             checked_list.append('돼지')
             self.destroy()
             app2 = QApplication(sys.argv)
-            window = ImageOCRWindow(checked_list)
+            window = ImageOCRWindow(checked_list, checked_pig)
             window.show()
             sys.exit(app2.exec_())
 

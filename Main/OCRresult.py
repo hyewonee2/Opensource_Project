@@ -31,7 +31,10 @@ images_dict = {
     "게": "crab",
     "치즈": "cheese",
     "토마토": "tomato",
-    "새우": "shrimp"
+    "새우": "shrimp",
+    "소고기": "cow",
+    "쇠고기": "cow",
+    "돼지": "pig"
 }
 
 class OCRResultWindow(QWidget):
@@ -149,8 +152,13 @@ class ImageOCRWindow(QWidget):
                 print(text)
                 return text
             else:
-                print("OCR 결과가 비어 있습니다.")
-                return None
+                text = pt.image_to_string(image, lang='kor', config=custom_config)
+                if text.strip():  # 텍스트가 비어 있지 않은지 확인
+                    print(text)
+                    return text
+                else:
+                    print("OCR 결과가 비어 있습니다.")
+                    return None
 
         except FileNotFoundError:
             print("이미지 파일을 찾을 수 없습니다. 경로를 확인하세요.")
@@ -176,15 +184,3 @@ class ImageOCRWindow(QWidget):
     def show_ocr_result_window(self, result, file_path):
         self.ocr_result_window = OCRResultWindow(result, self.checked_list, file_path)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    
-    # 체크 리스트 예시
-    checked_list = ["달걀", "우유", "밀"]
-    
-    main_window = ImageOCRWindow(checked_list, checked_list)
-    main_window.show()
-    
-    sys.exit(app.exec_())

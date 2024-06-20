@@ -51,6 +51,7 @@ class AllergyChecker:
     def update_checked_allergy(self):
         self.checked_allergy = [self.check_names[i].split("(")[0] for i, var in enumerate(self.check_vars) if var.get()]
         self.checked_png = [self.check_names[i].split("(")[1].strip(")") for i, var in enumerate(self.check_vars) if var.get()]
+        
 
     # 확인 버튼 클릭 시 체크박스 상태를 확인하는 함수
     def show_checked(self):
