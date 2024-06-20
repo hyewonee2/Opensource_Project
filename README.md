@@ -1,7 +1,8 @@
 Project Name  Opensource Project: 알고 먹자
 
-Deployment : 배포 링크
 Images : 프로젝트 이미지
+![image](https://github.com/hyewonee2/Opensource_Project/assets/165885976/efdcfb1b-b269-455d-ad63-53e3e195026e)
+
 Technologies Used : Tesseract OCR
 
 Features : 프로젝트의 기능
