@@ -65,7 +65,7 @@ class ImageOCRWindow(QWidget):
         self.button = QPushButton(self)
         self.button.setGeometry(300, 300, 200, 200)
         self.button.clicked.connect(self.open_file)
-        icon = QIcon("../ImageFile/gal.png")  # 여기에 이미지 파일 경로를 입력
+        icon = QIcon("ImageFile/gal.png")  # 여기에 이미지 파일 경로를 입력
         self.button.setIcon(icon)
         self.button.setIconSize(self.button.size() * 0.8)
         self.button.setStyleSheet("""
