@@ -1,9 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from OCRresult import ImageOCRWindow, OCRResultWindow
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication
 import sys
 
 class AllergyChecker:

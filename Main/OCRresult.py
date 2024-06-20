@@ -1,16 +1,38 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 import cv2
 import pytesseract as pt
 from PIL import Image
 from PyQt5.QtCore import Qt
 import numpy as np
-from PyQt5.QtGui import QPixmap
 
 # Tesseract OCR 실행 파일 경로 설정
 pt.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 custom_config = r'--oem 1 --psm 3'
+
+images_dict = {
+    "달걀": "egg",
+    "우유": "milk",
+    "밀": "wheat",
+    "콩": "soy",
+    "땅콩": "peanut",
+    "옥수수": "corn",
+    "메밀": "buckwheat",
+    "버섯": "mushroom",
+    "생선": "fish",
+    "조개": "shellfish",
+    "바나나": "banana",
+    "오징어": "squid",
+    "두유": "soy_milk",
+    "딸기": "strawberry",
+    "고추": "pepper",
+    "키위": "kiwi",
+    "게": "crab",
+    "치즈": "cheese",
+    "토마토": "tomato",
+    "새우": "shrimp"
+}
 
 class OCRResultWindow(QWidget):
     def __init__(self, ocr_result, checked_list, image_path):
@@ -29,21 +51,36 @@ class OCRResultWindow(QWidget):
 
         # OCR 결과 텍스트 레이블
         for i in checked_list:
-            label = QLabel()
             if i in ocr_result:
-                label.setText("OCR 결과에 '%s'이 포함되어 있습니다." % i)
-            else:
-                label.setText("OCR 결과에 '%s'이 포함되어 있지 않습니다." % i)
-            layout.addWidget(label)
+                # 이미지 파일 경로 설정
+                image_name = images_dict.get(i)
+                if image_name:
+                    image_file_path = f'ImageFile/{image_name}.png'
+
+                    # 이미지 레이블 추가
+                    item_label = QLabel()
+                    pixmap = QPixmap(image_file_path).scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                    if not pixmap.isNull():
+                        item_label.setPixmap(pixmap)
+                    else:
+                        item_label.setText("이미지 없음")
+
+                    # 텍스트 레이블 추가
+                    text_label = QLabel()
+                    text_label.setText("OCR 결과에 '%s'이 포함되어 있습니다." % i)
+                    
+                    layout.addWidget(item_label)
+                    layout.addWidget(text_label)
+
         print(checked_list)
 
 
-
 class ImageOCRWindow(QWidget):
-    def __init__(self, checked_list):
+    def __init__(self, checked_list, checked_png):
         super().__init__()
 
         self.checked_list = checked_list
+        self.checked_png = checked_png
 
         self.setWindowTitle("이미지 OCR")
         self.setGeometry(100, 100, 800, 800)  # 창의 위치와 크기 설정
@@ -140,13 +177,14 @@ class ImageOCRWindow(QWidget):
         self.ocr_result_window = OCRResultWindow(result, self.checked_list, file_path)  # 인스턴스를 클래스 속성으로 저장
         self.ocr_result_window.show()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
     # 체크 리스트 예시
-    checked_list = ["원재료1", "원재료2", "원재료3"]
+    checked_list = ["달걀", "우유", "밀"]
     
-    main_window = ImageOCRWindow(checked_list)
+    main_window = ImageOCRWindow(checked_list, checked_list)
     main_window.show()
     
     sys.exit(app.exec_())
