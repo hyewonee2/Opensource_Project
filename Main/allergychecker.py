@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from OCRresult import ImageOCRWindow, OCRResultWindow
+from OCRresult import ImageOCRWindow
 from PyQt5.QtWidgets import QApplication
 import sys
 

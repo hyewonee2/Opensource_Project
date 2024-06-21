@@ -1,15 +1,8 @@
 import tkinter as tk
-import os
 import sys
-import cv2
-import pytesseract as pt
-from tkinter import messagebox
 from allergychecker import AllergyChecker
-from OCRresult import ImageOCRWindow, OCRResultWindow
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFileDialog
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
-
+from OCRresult import ImageOCRWindow
+from PyQt5.QtWidgets import QApplication
 # 글로벌 변수로 checked_list 선언
 checked_list = []
 

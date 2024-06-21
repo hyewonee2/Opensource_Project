@@ -1,6 +1,4 @@
-import tkinter as tk
-from allergychecker import AllergyChecker
-from app import App, checked_list
+from app import App
 
 def main():
     app = App()
