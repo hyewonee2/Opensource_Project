@@ -55,7 +55,7 @@
   
 <Project Structure>
   
-Opensource_Project/
+```Opensource_Project/
 │
 ├── README.md
 ├── requirements.txt
@@ -72,6 +72,12 @@ Opensource_Project/
 │   ├── testcolab.py
 │   ├── testfile.py
 │   └── allergychecker.py
+├──testimage/
+│   ├── imgtest.jpg
+│   ├── imgtest2.jpg
+│   ├── imgtest3.jpg
+│   ├── imgtest4.jpg
+│   └── imgtest5.jpg
 └── ImageFile/
     ├── ok.png
-    └── various food image.png ...
+    └── various food image.png ...```
