@@ -72,12 +72,10 @@ Opensource_Project/
 │   └── allergychecker.py
 ├──OCRProject/ #This is not neccesary files but you can see our development process.
 │   ├── pyqt.py
-│   ├── checkpage_1.py
-│   ├── startwindow.py
 │   ├── test.py
 │   ├── testcolab.py
-│   ├── testfile.py
-│   └── allergychecker.py
+│   ├── OCRResult.py
+│   └── testfile.py
 ├──testimage/
 │   ├── imgtest.jpg
 │   ├── imgtest2.jpg
