@@ -1,12 +1,12 @@
-<Project Name>  Opensource Project: 알고 먹자
+## Opensource Project: 알고 먹자
 
-<Images> 프로젝트 이미지
+## Images 프로젝트 이미지
 ![image](https://github.com/hyewonee2/Opensource_Project/assets/165885976/efdcfb1b-b269-455d-ad63-53e3e195026e)
 ![image](https://github.com/hyewonee2/Opensource_Project/assets/165885976/d2114204-55b8-49ad-b96d-a2abba365e0a)
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/ca2f03f3-2ead-48f1-b363-f731bc78aaf5/8684954d-69af-4e7b-9870-688720ff31a4/Untitled.png)
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/ca2f03f3-2ead-48f1-b363-f731bc78aaf5/68874562-efc1-4194-9ec9-17016410aaa0/Untitled.png)![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/ca2f03f3-2ead-48f1-b363-f731bc78aaf5/bf2b9ffb-8b03-4f13-be4e-383fc71b5b1b/Untitled.png)
 
- <Technologies Used>
+ ## Technologies Used
 
 - **Programming Languages:**
   - Python
@@ -22,7 +22,7 @@
   - Tesseract OCR (pytesseract) (for optical character recognition)
   - Visual Studio Code (for development)
 
-<Installation>
+## Installation
 
 1. Clone the repository:
     ```bash
@@ -50,12 +50,13 @@
 5. Attach a image:
  you can download testimage file through our github or you can use your own image.
 
-<Features>
+## Features
   By using the program, foreign workers in Korea can check whether pork, beef, or their allergies are included in the food. You can see the selection window and the results window consisting of pictograms.
   
-<Project Structure>
-  
-```Opensource_Project/
+## Project Structure
+
+```  
+Opensource_Project/
 │
 ├── README.md
 ├── requirements.txt
