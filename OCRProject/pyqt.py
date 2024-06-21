@@ -35,5 +35,3 @@ if __name__ == "__main__":
     window = ImageWindow()
     window.show()
     sys.exit(app.exec_())
-
-
